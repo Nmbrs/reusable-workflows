@@ -1,0 +1,36 @@
+name: Terraform checkov
+
+on:
+  workflow_call:
+    inputs:
+      target-directory:
+        description: "Target working directory (development/production/staging)"
+        required: false
+        type: string
+        default: "development"
+
+jobs:
+  checkov:
+    name: checkov
+
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./${{ inputs.target-directory }}
+
+    steps:    
+
+      # Performs static code analysis, scanning IaC files for misconfigurations that may lead 
+      # to security or compliance issues.
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./
+          log_level: WARNING
+          framework: terraform
+          quiet: false
+          soft_fail: false
+          download_external_modules: true
