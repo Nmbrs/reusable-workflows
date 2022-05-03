@@ -14,7 +14,7 @@ on:
         required: true
       infracost_api_token:
         description: Infracost API token
-        required: true
+        required: false
 
 jobs:
   tf-code-validation:
@@ -65,16 +65,19 @@ jobs:
 
       # Generates a Infracost snapshot for the resources.
       - name: Setup Infracost
+        if: ${{ secrets.infracost_api_token }} != ''
         uses: infracost/actions/setup@v1
         with:
           api-key: ${{ secrets.infracost_api_token }}
 
       # Generates a Infracost json output for the resources.
       - name: Generate Infracost JSON
+        if: ${{ secrets.infracost_api_token }} != ''
         run: infracost breakdown --path . --format json --out-file /tmp/infracost.json
 
       # Post comment on the PR with the infracost information.
       - name: Post Infracost comment
+        if: ${{ secrets.infracost_api_token }} != ''
         run: |
           # Posts a comment to the PR using the 'update' behavior.
           # This creates a single comment and updates it. The "quietest" option.
