@@ -1,0 +1,31 @@
+name: gitleaks scan
+
+on:
+  workflow_call:
+    inputs:
+      # valid options: python, dotnet, golang, nodejs
+      config-filepath:
+        description: "Path to gitleaks TOML config file"
+        required: false
+        type: string
+
+jobs:
+  gitleaks-scan:
+    name: gitleaks scan
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with:
+          # clones the entire repository history
+          fetch-depth: '0'
+
+      - name: gitleaks-action
+        uses: zricethezav/gitleaks-action@v1.6.0
+        with:
+          config-path: ${{ inputs.config-filepath }}

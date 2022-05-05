@@ -1,0 +1,78 @@
+name: "polaris scan"
+
+on:
+  workflow_call:
+    inputs:
+      # valid options: python, dotnet, golang, nodejs
+      polaris_project_name:
+        description: "Polaris project name"
+        required: true
+        type: string
+      polaris_server_url:
+        description: "Polaris server url"
+        required: true
+        type: string
+
+    secrets:
+      polaris_access_token:
+        description: Polaris Access Token
+        required: true
+
+jobs:
+  polaris-scan:
+    name: polaris scan
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with:
+          # clones the entire repository history
+          fetch-depth: '0'
+
+      - name: Stub echo
+        run: |
+          echo "hello polaris"
+      # # If this run was triggered by a pull request event, then checkout
+      # # the head of the pull request instead of the merge commit.
+      # - run: git checkout HEAD^2
+      #   if: ${{ github.event_name == 'pull_request' }}
+
+      # - name: Static Analysis with Polaris Action
+      #   uses: devsecops-test/polaris-action@v1
+      #   with:
+      #     polarisServerUrl: ${{secrets.polaris_server_url}}
+      #     polarisAccessToken: ${{secrets.polaris_access_token}}
+      #     polarisProjectName: ${{ inputs.polaris_project_name }}
+
+      # - name: Incremental Static Analysis with Polaris Action for Pull Request
+      #   if: ${{github.event_name == 'pull_request'}}
+      #   uses: devsecops-test/polaris-action@v1
+      #   with:
+      #     polarisServerUrl: ${{secrets.polaris_server_url}}
+      #     polarisAccessToken: ${{secrets.polaris_access_token}}
+      #     polarisProjectName: ${{ inputs.polaris_project_name }}
+      #     polarisAdditionalArgs: --coverity-ignore-capture-failure --incremental polaris-files-to-scan.txt | tee polaris-output.txt
+      #     githubUrl: https://api.github.com/repos/${{github.repository}}/pulls/$(jq --raw-output .pull_request.number ${{github.event_path}})/files
+      #     githubCreds: "${{secrets.GITHUB_USERNAME}}:${{secrets.GITHUB_TOKEN}}" #Needed only if repository is private
+
+      # - name: Incremental Static Analysis with Polaris Action for a single commit
+      #   if: ${{github.event_name == 'push'}}
+      #   uses: devsecops-test/polaris-action@v1
+      #   with:
+      #     polarisServerUrl: ${{secrets.polaris_server_url}}
+      #     polarisAccessToken: ${{secrets.polaris_access_token}}
+      #     polarisProjectName: ${{ inputs.polaris_project_name }}
+      #     polarisAdditionalArgs: --coverity-ignore-capture-failure --incremental polaris-files-to-scan.txt | tee polaris-output.txt
+      #     githubUrl: https://api.github.com/repos/${{github.repository}}/commits/${{github.sha}}
+      #     githubCreds: "${{secrets.GITHUB_USERNAME}}:${{secrets.GITHUB_TOKEN}}" #Needed only if repository is private
+
+      # - name: Upload SARIF file
+      #   uses: github/codeql-action/upload-sarif@v1
+      #   with:
+      #     # Path to SARIF file relative to the root of the repository
+      #     sarif_file: polaris-scan-results.sarif.json
