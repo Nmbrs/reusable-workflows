@@ -1,0 +1,41 @@
+name: microservice golang template
+
+on:
+  workflow_dispatch:
+# on:
+#   push:
+
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+#     branches: [main]
+
+jobs:
+  snyk:
+    # on pull request events only.
+    # if: github.event_name == 'pull_request'
+    name: Scan Code Vulnerabilities
+    uses: Nmbrs/reusable-workflows/.github/workflows/snyk-code-scan.workflow.yaml@demo-sec
+    with:
+      language-tooling: golang
+    secrets:
+      snyk_api_token: ${{ secrets.SNYK_API_TOKEN }}
+  
+  polaris:
+    # triggered when opening a pull request or on merging.    
+    # if: (github.event_name == 'pull_request' && github.event_type == 'opened') || github.ref_name == 'main'
+    # if: github.event_name == 'pull_request'
+    name: Scan for Security Vulnerabilities
+    uses: Nmbrs/reusable-workflows/.github/workflows/polaris-scan.workflow.yaml@demo-sec
+    with:
+      polaris_project_name: 'my-project-name'
+      polaris_server_url: 'https://my-polaris-url.com'
+    secrets:
+      polaris_access_token: ${{ secrets.POLARIS_API_TOKEN }}
+
+  gitleaks:
+    # triggered on every commit, on any branch.
+    # if: github.event_name == 'push'
+    name: Scan Code for Leaks
+    uses: Nmbrs/reusable-workflows/.github/workflows/gitleaks-repository-scan.workflow.yaml@demo-sec
+
+
