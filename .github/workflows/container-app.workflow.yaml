@@ -15,10 +15,6 @@ on:
         description: 'Azure rg target deployment'
         required: true
         type: string
-    secrets:
-      azure_credentials:
-        required: true
-
 
 jobs:
   deploy-container-app:
@@ -34,7 +30,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.azure_credentials }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy microservice to container app (dev)
         uses: azure/CLI@v1
