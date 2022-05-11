@@ -13,10 +13,7 @@ on:
         required: false
         type: string
         default: "."
-    secrets:
-      ghcr_token:
-        description: 'ghcr creds'
-        required: true
+
 
 jobs:
   ## Build container image and publish it
@@ -51,7 +48,7 @@ jobs:
         with:
           registry: ${{ env.CONTAINER_REGISTRY_NAME }}
           username: ${{ env.CONTAINER_REGISTRY_USERNAME }}
-          password: ${{ secrets.ghcr_token }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and push container image
         id: docker_build
