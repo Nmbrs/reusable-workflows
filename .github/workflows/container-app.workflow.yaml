@@ -25,13 +25,13 @@ jobs:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
       CONTAINER_REGISTRY_USERNAME: 'nmbrs'
       REPOSITORY_NAME: ${{ github.event.repository.name }}
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      BLA: ${{ secrets.AZURE_CREDENTIALS }}
 
     steps:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
+          creds: ${{ env.BLA }}
 
       - name: Deploy microservice to container app (dev)
         uses: azure/CLI@v1
