@@ -45,4 +45,4 @@ jobs:
             az extension add --source https://containerappcli.blob.core.windows.net/containerapp/containerapp-0.1.3-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
             az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
-            az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --image ${{ CONTAINER_REGISTRY_NAME }}/${{ secrets.CONTAINER_REGISTRY_USERNAME }}/${{ env.REPOSITORY_NAME }}:${{ inputs.image_version }}
+            az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --image ${{ env.CONTAINER_REGISTRY_NAME }}/${{ secrets.CONTAINER_REGISTRY_USERNAME }}/${{ env.REPOSITORY_NAME }}:${{ inputs.image_version }}
