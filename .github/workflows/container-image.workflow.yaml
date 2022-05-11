@@ -46,7 +46,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY_NAME }}
           username: ${{ github.actor }}
-          password: ${{ github.token }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and push container image
         id: docker_build
