@@ -19,7 +19,7 @@ on:
 jobs:
   deploy-container-app:
     name: Deploy container app
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, linux]
     environment: ${{ inputs.environment }}
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
