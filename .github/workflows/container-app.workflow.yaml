@@ -17,10 +17,10 @@ on:
         type: string
 
 jobs:
-  container-app:
-    name: ${{ inputs.environment }}
+  container-app-dev:
+    name: Dev
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: Dev
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
       CONTAINER_REGISTRY_USERNAME: 'nmbrs'
@@ -32,7 +32,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy microservice to container app (dev)
+      - name: Deploy microservice to container app
         uses: azure/CLI@v1
         with:
           inlineScript: |
