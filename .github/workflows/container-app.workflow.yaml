@@ -17,8 +17,7 @@ on:
         type: string
 
 jobs:
-  deploy-container-app:
-    name: Deploy container app
+  Deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
