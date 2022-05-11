@@ -29,13 +29,15 @@ jobs:
         shell: bash
         working-directory: ${{ inputs.target-directory }}
 
-    permissions:
-      packages: write
 
     steps:
-
+    
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ github.token }}
+        
       - name: Set up Docker Buildx
-        id: buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Login to container registry
