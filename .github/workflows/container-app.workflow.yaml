@@ -3,6 +3,10 @@ name: container app deployment
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Github action environment'
+        required: true
+        type: string
       image_version:
         description: 'Container image version'
         required: true
@@ -17,6 +21,7 @@ jobs:
   deploy-container-app:
     name: Deploy container app
     runs-on: ubuntu-20.04
+    environment: ${{ inputs.environment }}
 
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
