@@ -29,6 +29,8 @@ jobs:
         shell: bash
         working-directory: ${{ inputs.target-directory }}
 
+    permissions:
+      packages: write
 
     steps:
     
