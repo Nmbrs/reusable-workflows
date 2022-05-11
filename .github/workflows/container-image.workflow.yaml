@@ -21,7 +21,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      REGISTRY_NAME: 'ghcr.io'
+      CONTAINER_REGISTRY_NAME: 'ghcr.io'
+      CONTAINER_REGISTRY_USERNAME: 'nmbrs'
       IMAGE_NAME: nmbrs/${{ github.event.repository.name }}
 
     defaults:
@@ -44,8 +45,8 @@ jobs:
       - name: Login to container registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY_NAME }}
-          username: ${{ github.actor }}
+          registry: ${{ env.CONTAINER_REGISTRY_NAME }}
+          username: ${{ env.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and push container image
@@ -54,6 +55,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ inputs.image_tag }}
+          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ inputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha
