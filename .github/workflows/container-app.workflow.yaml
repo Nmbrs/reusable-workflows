@@ -3,10 +3,6 @@ name: container app deployment
 on:
   workflow_call:
     inputs:
-      environment:
-        description: 'Github action environment'
-        required: true
-        type: string
       image_version:
         description: 'Container image version'
         required: true
@@ -21,21 +17,16 @@ jobs:
   deploy-container-app:
     name: Deploy container app
     runs-on: ubuntu-20.04
-    environment: ${{ inputs.environment }}
-
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
       CONTAINER_REGISTRY_USERNAME: 'nmbrs'
       REPOSITORY_NAME: ${{ github.event.repository.name }}
 
-
     steps:
-
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
 
       - name: Deploy microservice to container app (dev)
         uses: azure/CLI@v1
