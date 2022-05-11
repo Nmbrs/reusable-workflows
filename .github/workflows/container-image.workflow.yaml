@@ -29,7 +29,7 @@ jobs:
         shell: bash
         working-directory: ${{ inputs.target-directory }}
 
-    permissions: read-all|write-all
+    permissions: write-all
 
     steps:
     
