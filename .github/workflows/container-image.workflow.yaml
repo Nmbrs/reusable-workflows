@@ -12,9 +12,6 @@ on:
 jobs:
   ## Build container image and publish it to container registry
   build-container-image:
-    permissions:
-      contents: read
-      packages: write
     name: build and publish container image
     runs-on: ubuntu-20.04
 
