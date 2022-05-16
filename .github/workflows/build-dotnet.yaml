@@ -42,7 +42,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install microservice dependencies
-        uses: Stockopedia/action-run-on-list
+        uses: Stockopedia/action-run-on-list@v1
         with:
           list: ${{ fromJSON(inputs.projects-folder) }}
           command: |
