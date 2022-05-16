@@ -21,7 +21,7 @@ jobs:
   build:
     name: Build dotnet app
     
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     
     steps:
       - name: Checkout source code
