@@ -47,4 +47,5 @@ jobs:
           list: ${{ inputs.projects-folder }}
           #list: '["one", "two", "three"]'
           command: |
+            type dotnet
             dotnet restore $item 
