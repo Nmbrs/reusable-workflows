@@ -44,6 +44,6 @@ jobs:
       - name: Install microservice dependencies
         uses: Stockopedia/action-run-on-list@v1
         with:
-          list: ${{ fromJSON(inputs.projects-folder) }}
+          list: ${{ inputs.projects-folder }}
           command: |
             echo $item 
