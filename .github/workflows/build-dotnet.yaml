@@ -42,10 +42,5 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install microservice dependencies
-        uses: Stockopedia/action-run-on-list@v1
-        with:
-          list: ${{ inputs.projects-folder }}
-          #list: '["one", "two", "three"]'
-          command: |
-            whereis dotnet
-            dotnet restore $item 
+        run: |
+          echo ${{ inputs.projects-folder }}
