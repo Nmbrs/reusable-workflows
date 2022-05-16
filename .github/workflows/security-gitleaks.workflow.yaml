@@ -1,5 +1,4 @@
-name: gitleaks scan
-
+name: gitleaks
 on:
   workflow_call:
     inputs:
