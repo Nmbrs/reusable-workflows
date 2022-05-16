@@ -1,0 +1,49 @@
+---
+
+name: Build dotnet application
+
+on:
+  workflow_call:
+    inputs:
+        
+      dotnet-version:
+        description: Version of dotnet to use
+        type: string
+        required: true
+      
+      projects-folder:
+        description: List of projects
+        type: string
+        required: true
+
+    
+jobs:
+  build:
+    name: Build dotnet app
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+
+      - name: Clone private actions
+        uses: actions/checkout@v2
+        with:
+          repository: nmbrs/github-actions
+          token: ${{ secrets.PAT }}
+          path: ./.github/actions/github-actions
+
+      - name: Setup .NET environment
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install microservice dependencies
+        uses: Stockopedia/action-run-on-list
+        with:
+          list: ${{ fromJSON(inputs.projects-folder) }}
+          command: |
+            echo $item 
