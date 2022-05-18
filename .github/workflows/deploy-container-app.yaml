@@ -14,7 +14,7 @@ on:
 
 jobs:
   container-app-dev:
-    name: Dev
+    name: Container App Dev
     runs-on: ubuntu-latest
     environment: Dev
     env:
