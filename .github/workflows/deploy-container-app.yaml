@@ -1,0 +1,39 @@
+name: container app deployment
+
+on:
+  workflow_call:
+    inputs:
+      image_version:
+        description: 'Container image version'
+        required: true
+        type: string
+      az_rg:
+        description: 'Azure rg target deployment'
+        required: true
+        type: string
+
+jobs:
+  container-app-dev:
+    name: Container App Dev
+    runs-on: ubuntu-latest
+    environment: Dev
+    env:
+      CONTAINER_REGISTRY_NAME: 'ghcr.io'
+      CONTAINER_REGISTRY_USERNAME: 'nmbrs'
+      REPOSITORY_NAME: ${{ github.event.repository.name }}
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy microservice to container app
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            echo "Installing containerapp extension"
+            az extension add --source https://containerappcli.blob.core.windows.net/containerapp/containerapp-0.1.3-py2.py3-none-any.whl --yes
+            echo "Starting Deploying"
+            az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
+            az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --image ${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.CONTAINER_REGISTRY_USERNAME }}/${{ env.REPOSITORY_NAME }}:${{ inputs.image_version }}
