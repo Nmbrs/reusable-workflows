@@ -14,7 +14,7 @@ on:
 
 jobs:
   gitleaks-scan:
-    name: gitleaks scan
+    name: Gitleaks
     runs-on: ubuntu-20.04
 
     defaults:
