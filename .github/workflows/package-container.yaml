@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-container-image:
-    name: Container
+    name: Container Image
     runs-on: ubuntu-20.04
 
     env:
