@@ -20,11 +20,6 @@ on:
         type: string
         default: "."
 
-    secrets:
-      snyk_api_token:
-        description: Snyk API Token
-        required: true
-
 jobs:
   snyk-scan:
     name: snyk scan
@@ -33,7 +28,7 @@ jobs:
       IMAGE_NAME: ${{ github.repository }}
       IMAGE_TAG: ${{ inputs.image_tag }}
       REGISTRY_NAME: "ghcr.io"
-      SNYK_TOKEN: ${{ secrets.snyk_api_token }}
+      SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 
     defaults:
       run:
