@@ -48,7 +48,7 @@ jobs:
         uses: snyk/actions/dotnet@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --all-projects --sarif-file-output=snyk.sarif
 
       # Scan for nodejs
       - name: Run Snyk scan for nodejs
