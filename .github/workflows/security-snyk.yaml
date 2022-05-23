@@ -48,7 +48,7 @@ jobs:
         uses: snyk/actions/dotnet@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args: --all-projects --sarif-file-output=snyk.sarif
+          args: --all-projects --severity-threshold=critical --sarif-file-output=snyk.sarif
 
       # Scan for nodejs
       - name: Run Snyk scan for nodejs
@@ -103,8 +103,8 @@ jobs:
           args: --file=Dockerfile --sarif-file-output=snyk.sarif
 
       # Uploads SARIF file to see the result of tfsec in github repository
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          image: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          sarif_file: snyk.sarif
+      # - name: Upload result to GitHub Code Scanning
+      #   uses: github/codeql-action/upload-sarif@v1
+      #   with:
+      #     image: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      #     sarif_file: snyk.sarif
