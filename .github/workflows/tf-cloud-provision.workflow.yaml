@@ -17,7 +17,7 @@ jobs:
   tf-apply:
     name: Terraform apply
 
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, terraform]
 
     defaults:
       run:
