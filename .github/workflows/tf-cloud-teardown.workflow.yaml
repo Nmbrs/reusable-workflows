@@ -18,7 +18,7 @@ jobs:
   tf-destroy:
     name: Terraform destroy
 
-    runs-on: [self-hosted, terraform]
+    runs-on: [self-hosted]
 
     defaults:
       run:
