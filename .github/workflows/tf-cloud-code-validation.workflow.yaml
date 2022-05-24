@@ -67,7 +67,7 @@ jobs:
       # Generates a Infracost snapshot for the resources.
       - name: Setup Infracost
         if: ${{ env.INFRACOSTS_API_KEY!= '' }}
-        uses: infracost/actions/setup@v2
+        uses: infracost/actions/setup@v1
         with:
           api-key: ${{ env.INFRACOSTS_API_KEY }}
 
