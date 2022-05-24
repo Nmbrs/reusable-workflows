@@ -35,6 +35,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.terraform_cloud_api_token }}
+          terraform_wrapper: false
 
       # Initializes Terraform configurations.
       - name: Terraform Init
