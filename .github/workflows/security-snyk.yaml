@@ -14,11 +14,11 @@ on:
         required: false
         type: string
         default: latest
-      # target-directory:
-      #   description: "Target working directory"
-      #   required: false
-      #   type: string
-      #   default: "."
+      target-directory:
+        description: "Target working directory"
+        required: false
+        type: string
+        default: "."
 
 jobs:
   snyk-scan:
@@ -41,6 +41,13 @@ jobs:
         id: checkout
         uses: actions/checkout@v3
 
+      - name: Install dotnet dependencies
+        if: ${{ inputs.language-tooling == 'dotnet'}}
+        run: |
+          dotnet restore Nmbrs.Payment.Service.Api/Nmbrs.Payment.Service.Api.csproj
+          dotnet restore Nmbrs.Payment.Service.Client.Tests/Nmbrs.Payment.Service.Client.Tests.csproj
+          dotnet restore Nmbrs.Payment.Service.Tests.Integration/Nmbrs.Payment.Service.Tests.Integration.csproj
+      
       # Scan for dotnet
       - name: Run Snyk scan for .Net
         id: snyk-dotnet
@@ -48,7 +55,7 @@ jobs:
         uses: snyk/actions/dotnet@master
         continue-on-error: true # To make sure that SARIF upload gets called
         with:
-          args:  --all-projects
+          args:  --all-projects --sarif-file-output=snyk.sarif
           # args:  --all-projects --sarif-file-output=snyk.sarif
 
       # Scan for nodejs
