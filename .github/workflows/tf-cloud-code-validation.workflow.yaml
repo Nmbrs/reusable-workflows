@@ -19,7 +19,7 @@ on:
 jobs:
   tf-code-validation:
     name: Terraform code validation
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted]
     env:
       INFRACOST_CURRENCY: EUR
       INFRACOSTS_API_KEY: ${{ secrets.infracost_api_token }}
