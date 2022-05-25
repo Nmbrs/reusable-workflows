@@ -48,7 +48,7 @@ jobs:
           myarray=($input)
           for val in ${myarray[@]};
           do
-            echo "dotnet restore ${val}"
+            dotnet restore ${val}
           done
 
           #dotnet restore Nmbrs.Payment.Service.Api/Nmbrs.Payment.Service.Api.csproj
