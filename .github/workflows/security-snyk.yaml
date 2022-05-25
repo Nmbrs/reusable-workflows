@@ -33,7 +33,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        #working-directory: ${{ inputs.target-directory }}
+        working-directory: ${{ inputs.target-directory }}
 
     steps:
       # Checkout repository
