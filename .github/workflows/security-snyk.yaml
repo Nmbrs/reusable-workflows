@@ -50,8 +50,8 @@ jobs:
       - name: Install dotnet dependencies
         if: ${{ inputs.language-tooling == 'dotnet'}}
         run: |
-          input=$(echo "Nmbrs.Payment.Service.Api/Nmbrs.Payment.Service.Api.csproj, Nmbrs.Payment.Service.Client.Tests/Nmbrs.Payment.Service.Client.Tests.csproj, Nmbrs.Payment.Service.Tests.Integration/Nmbrs.Payment.Service.Tests.Integration.csproj" | tr ', ' ' ')
-          array=($input)
+          parsed_string=$(echo "${{ inputs.target-csproject-files }}" | tr ', ' ' ')
+          array=($parsed_string)
           for value in ${array[@]};
           do
             dotnet restore ${value}
