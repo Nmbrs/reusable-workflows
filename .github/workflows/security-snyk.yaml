@@ -14,6 +14,12 @@ on:
         required: false
         type: string
         default: latest
+      target-csproject-files:
+        # This files should processed as a comma separated array
+        description: "Target dotnet csproject files"
+        required: false
+        type: string
+        default: ""
       target-directory:
         description: "Target working directory"
         required: false
@@ -45,15 +51,11 @@ jobs:
         if: ${{ inputs.language-tooling == 'dotnet'}}
         run: |
           input=$(echo "Nmbrs.Payment.Service.Api/Nmbrs.Payment.Service.Api.csproj, Nmbrs.Payment.Service.Client.Tests/Nmbrs.Payment.Service.Client.Tests.csproj, Nmbrs.Payment.Service.Tests.Integration/Nmbrs.Payment.Service.Tests.Integration.csproj" | tr ', ' ' ')
-          myarray=($input)
-          for val in ${myarray[@]};
+          array=($input)
+          for value in ${array[@]};
           do
-            dotnet restore ${val}
+            dotnet restore ${value}
           done
-
-          #dotnet restore Nmbrs.Payment.Service.Api/Nmbrs.Payment.Service.Api.csproj
-          #dotnet restore Nmbrs.Payment.Service.Client.Tests/Nmbrs.Payment.Service.Client.Tests.csproj
-          #dotnet restore Nmbrs.Payment.Service.Tests.Integration/Nmbrs.Payment.Service.Tests.Integration.csproj
       
       # Scan for dotnet
       - name: Run Snyk scan for .Net
