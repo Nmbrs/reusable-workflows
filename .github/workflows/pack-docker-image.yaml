@@ -1,4 +1,4 @@
-name: Package and publish container image
+name: Pack and publish container image
 
 on:
   workflow_call:
