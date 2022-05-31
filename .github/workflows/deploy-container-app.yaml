@@ -37,7 +37,7 @@ jobs:
           path: ./.github/actions/github-actions
 
       - name: Generate deployment file
-        uses: ./.github/actions/github-actions/ytt-containers-apps
+        uses: ./.github/actions/github-actions/ytt-container-apps
         with:
           environment: dev
 
