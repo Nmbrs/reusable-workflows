@@ -15,7 +15,7 @@ on:
 jobs:
   container-app-dev:
     name: Container App Dev
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: Dev
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
@@ -23,6 +23,24 @@ jobs:
       REPOSITORY_NAME: ${{ github.event.repository.name }}
 
     steps:
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+
+      - name: Clone private actions
+        uses: actions/checkout@v2
+        with:
+          repository: nmbrs/github-actions
+          token: ${{ secrets.PAT }}
+          path: ./.github/actions/github-actions
+
+      - name: Generate deployment file
+        uses: ./.github/actions/github-actions/ytt-containers-apps
+        with:
+          environment: dev
+
       - name: Azure Login
         uses: azure/login@v1
         with:
