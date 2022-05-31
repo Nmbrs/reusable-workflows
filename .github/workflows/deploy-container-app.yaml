@@ -40,6 +40,12 @@ jobs:
         uses: ./.github/actions/github-actions/ytt-container-apps
         with:
           environment: dev
+          
+      - name: Publish deployment artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment
+          path: deployment.yaml
 
       - name: Azure Login
         uses: azure/login@v1
