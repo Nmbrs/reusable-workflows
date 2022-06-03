@@ -3,6 +3,10 @@ name: container app deployment
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: string
       image_version:
         description: 'Container image version'
         required: true
@@ -13,10 +17,10 @@ on:
         type: string
 
 jobs:
-  container-app-dev:
-    name: Container App Dev
+  container-app:
+    name: Container App
     runs-on: self-hosted
-    environment: Dev
+    environment: ${{ inputs.environment }}
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
       CONTAINER_REGISTRY_USERNAME: 'nmbrs'
@@ -39,13 +43,13 @@ jobs:
       - name: Update application version
         uses: ./.github/actions/github-actions/gitops-container-apps
         with:
-          environment: dev
+          environment: ${{ inputs.environment }}
           application_version: ${{ inputs.image_version }}
 
       - name: Generate deployment file
         uses: ./.github/actions/github-actions/ytt-container-apps
         with:
-          environment: dev
+          environment: ${{ inputs.environment }}
           
       - name: Publish deployment artifact
         uses: actions/upload-artifact@v3
