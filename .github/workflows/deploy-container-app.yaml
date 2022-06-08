@@ -41,16 +41,11 @@ jobs:
           token: ${{ secrets.PAT }}
           path: ./.github/actions/github-actions
 
-      - name: Update application version
-        uses: ./.github/actions/github-actions/gitops-container-apps
-        with:
-          environment: ${{ inputs.environment }}
-          application_version: ${{ inputs.image_version }}
-
       - name: Generate deployment file
         uses: ./.github/actions/github-actions/ytt-container-apps
         with:
           environment: ${{ inputs.environment }}
+          application_version: ${{ input.image_version }}
           azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }} 
 
       - name: Publish deployment file
@@ -67,9 +62,8 @@ jobs:
       - name: Deploy microservice to container app
         uses: azure/CLI@v1
         with:
+          azcliversion: 2.37.0
           inlineScript: |
-            echo "Installing containerapp extension"
-            #az extension add --source https://containerappcli.blob.core.windows.net/containerapp/containerapp-0.1.3-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
+            az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }}
             az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --yaml deployment.yaml
