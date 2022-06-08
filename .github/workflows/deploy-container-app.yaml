@@ -41,13 +41,13 @@ jobs:
           path: ./.github/actions/github-actions
 
       - name: Update application version
-        uses: ./.github/actions/github-actions/gitops-container-apps
+        uses: ./.github/actions/github-actions/gitops-container-apps@0.1.0
         with:
           environment: ${{ inputs.environment }}
           application_version: ${{ inputs.image_version }}
 
       - name: Generate deployment file
-        uses: ./.github/actions/github-actions/ytt-container-apps
+        uses: ./.github/actions/github-actions/ytt-container-apps@0.1.0
         with:
           environment: ${{ inputs.environment }}
           azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }} 
