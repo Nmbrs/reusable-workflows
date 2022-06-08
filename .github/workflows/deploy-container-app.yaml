@@ -68,7 +68,7 @@ jobs:
         with:
           inlineScript: |
             echo "Installing containerapp extension"
-            az extension add --source https://containerappcli.blob.core.windows.net/containerapp/containerapp-0.1.3-py2.py3-none-any.whl --yes
+            #az extension add --source https://containerappcli.blob.core.windows.net/containerapp/containerapp-0.1.3-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
             az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
             az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --yaml deployment.yaml
