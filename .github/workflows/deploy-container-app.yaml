@@ -45,7 +45,7 @@ jobs:
         uses: ./.github/actions/github-actions/ytt-container-apps
         with:
           environment: ${{ inputs.environment }}
-          application_version: ${{ input.image_version }}
+          application_version: ${{ inputs.image_version }}
           azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }} 
 
       - name: Publish deployment file
