@@ -1,0 +1,35 @@
+name: gitleaks
+on:
+  workflow_call:
+    inputs:
+      config-filepath:
+        description: 'Path to gitleaks TOML config file'
+        required: false
+        type: string
+      target-directory:
+        description: "Target working directory"
+        required: false
+        type: string
+        default: "."
+
+jobs:
+  gitleaks-scan:
+    name: Gitleaks
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.target-directory }}
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with:
+          # clones the entire repository history
+          fetch-depth: '0'
+
+      - name: gitleaks-action
+        uses: zricethezav/gitleaks-action@v1.6.0
+        with:
+          config-path: ${{ inputs.config-filepath }}

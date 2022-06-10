@@ -12,11 +12,17 @@ on:
       terraform_cloud_api_token:
         description: Terraform Cloud API token
         required: true
+      infracost_api_token:
+        description: Infracost API token
+        required: false
 
 jobs:
   tf-code-validation:
     name: Terraform code validation
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted]
+    env:
+      INFRACOST_CURRENCY: EUR
+      INFRACOSTS_API_KEY: ${{ secrets.infracost_api_token }}
 
     defaults:
       run:
@@ -35,7 +41,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.terraform_cloud_api_token }}
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       # Checks whether the repository has been properly formatted.
       # If it isn't properly formatted this step will produce an error.
@@ -57,3 +63,31 @@ jobs:
       - name: Terraform Plan
         id: tf-plan
         run: terraform plan -input=false -no-color
+
+      # Generates a Infracost snapshot for the resources.
+      - name: Setup Infracost
+        if: ${{ env.INFRACOSTS_API_KEY!= '' }}
+        uses: infracost/actions/setup@v1
+        with:
+          api-key: ${{ env.INFRACOSTS_API_KEY }}
+
+      # Generates a Infracost json output for the resources.
+      - name: Generate Infracost JSON
+        if: ${{ env.INFRACOSTS_API_KEY!= '' }}
+        run: infracost breakdown --path . --format json --out-file /tmp/infracost.json
+
+      # Post comment on the PR with the infracost information.
+      - name: Post Infracost comment
+        if: ${{ env.INFRACOSTS_API_KEY!= '' }}
+        run: |
+          # Posts a comment to the PR using the 'update' behavior.
+          # This creates a single comment and updates it. The "quietest" option.
+          # The other valid behaviors are:
+          #   delete-and-new - Delete previous comments and create a new one.
+          #   hide-and-new - Minimize previous comments and create a new one.
+          #   new - Create a new cost estimate comment on every push.
+          infracost comment github --path /tmp/infracost.json \
+                                   --repo $GITHUB_REPOSITORY \
+                                   --github-token ${{github.token}} \
+                                   --pull-request ${{github.event.pull_request.number}} \
+                                   --behavior update
