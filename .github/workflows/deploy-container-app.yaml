@@ -65,5 +65,4 @@ jobs:
           azcliversion: 2.37.0
           inlineScript: |
             echo "Starting Deploying"
-            az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }}
             az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --yaml deployment.yaml
