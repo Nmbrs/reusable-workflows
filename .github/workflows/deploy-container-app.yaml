@@ -38,7 +38,7 @@ jobs:
         with:
           repository: nmbrs/github-actions
           ref: 0.2.0
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.NMBRS_PAT }}
           path: ./.github/actions/github-actions
 
       - name: Generate deployment file
