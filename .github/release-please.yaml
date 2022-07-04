@@ -1,0 +1,20 @@
+name: code base release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    name: release please
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: google-github-actions/release-please-action@v3.2.6
+        with:
+          release-type: simple
