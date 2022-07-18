@@ -58,6 +58,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha
 
+
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+      
       - name: Run Snyk test
         continue-on-error: true
         run: |
