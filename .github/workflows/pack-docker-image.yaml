@@ -65,7 +65,7 @@ jobs:
       - name: Run Snyk test
         continue-on-error: true
         run: |
-          snyk container test ${{ steps.lowercase.container_image_full_name }} \
+          snyk container test ${{ steps.lowercase.outputs.container_image_full_name }} \
             --file=Dockerfile \
             --app-vulns \
             --severity-threshold=high
