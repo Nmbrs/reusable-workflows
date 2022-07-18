@@ -20,6 +20,7 @@ jobs:
 
     env:
       CONTAINER_REGISTRY_NAME: "ghcr.io"
+      SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 
     defaults:
       run:
@@ -56,3 +57,11 @@ jobs:
           tags: ${{ steps.lowercase.outputs.container_image_full_name }}
           cache-from: type=gha
           cache-to: type=gha
+
+      - name: Run Snyk test
+        continue-on-error: true
+        run: |
+          snyk container test ${{ steps.lowercase.container_image_full_name }} \
+            --file=Dockerfile \
+            --app-vulns \
+            --severity-threshold=high
