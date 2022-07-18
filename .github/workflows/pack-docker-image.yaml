@@ -57,7 +57,9 @@ jobs:
           tags: ${{ steps.lowercase.outputs.container_image_full_name }}
           cache-from: type=gha
           cache-to: type=gha
-
+      
+      - name: List image
+        run: docker images      
 
       - name: Install Snyk CLI
         uses: snyk/actions/setup@master
