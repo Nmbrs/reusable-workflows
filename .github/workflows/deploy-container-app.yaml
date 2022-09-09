@@ -15,6 +15,10 @@ on:
         description: 'Azure rg target deployment'
         required: true
         type: string
+      container_app:
+        description: 'Name of the container app'
+        required: true
+        type: string
 
 jobs:
   container-app:
@@ -24,7 +28,7 @@ jobs:
     env:
       CONTAINER_REGISTRY_NAME: 'ghcr.io'
       CONTAINER_REGISTRY_USERNAME: 'nmbrs'
-      REPOSITORY_NAME: ${{ github.event.repository.name }}
+      CONTAINER_APP: ${{ inputs.container_app }}
 
     steps:
 
@@ -65,5 +69,5 @@ jobs:
           azcliversion: 2.37.0
           inlineScript: |
             echo "Starting Deploying"
-            az containerapp registry set -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
-            az containerapp update -n ${{ env.REPOSITORY_NAME }} -g ${{ inputs.az_rg }} --yaml deployment.yaml
+            az containerapp registry set -n ${{ env.CONTAINER_APP }} -g ${{ inputs.az_rg }} --server ${{ env.CONTAINER_REGISTRY_NAME }} --username  ${{ env.CONTAINER_REGISTRY_USERNAME }} --password ${{ github.token }} --debug
+            az containerapp update -n ${{ env.CONTAINER_APP }} -g ${{ inputs.az_rg }} --yaml deployment.yaml
