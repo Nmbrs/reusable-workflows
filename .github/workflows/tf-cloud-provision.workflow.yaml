@@ -17,7 +17,7 @@ jobs:
   tf-apply:
     name: Terraform apply
 
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted]
 
     defaults:
       run:
@@ -34,7 +34,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.terraform_cloud_api_token }}
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       # Initializes terraform configurations.
       - name: Terraform Init
