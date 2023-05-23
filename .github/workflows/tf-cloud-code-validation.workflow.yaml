@@ -33,12 +33,12 @@ jobs:
       # Checkout repository
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Retrieves the terraform CLI used in the GitHub action workflow
       - name: Setup Terraform
         id: tf-setup
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.terraform_cloud_api_token }}
           terraform_wrapper: false
@@ -67,7 +67,7 @@ jobs:
       # Generates a Infracost snapshot for the resources.
       - name: Setup Infracost
         if: ${{ env.INFRACOSTS_API_KEY!= '' }}
-        uses: infracost/actions/setup@v1
+        uses: infracost/actions/setup@v2
         with:
           api-key: ${{ env.INFRACOSTS_API_KEY }}
 
