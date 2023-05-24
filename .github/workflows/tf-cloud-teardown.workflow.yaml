@@ -28,11 +28,11 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Retrieves the terraform CLI used in the GitHub action workflow
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.terraform_cloud_api_token }}
           terraform_wrapper: false
