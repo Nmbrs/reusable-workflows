@@ -62,5 +62,5 @@ jobs:
       - name: Terraform Plan Output
         id: extract
         run: |
-          tf-plan-output=$(grep -oE "Plan: [0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy" tf-plan-output)
-          echo "tf-plan-output=$tf-plan-output" >> "$GITHUB_OUTPUT"
+          tfplanoutput=$(grep -oE "Plan: [0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy" tf-plan-output)
+          echo "tf-plan-output=$tfplanoutput" >> "$GITHUB_OUTPUT"
