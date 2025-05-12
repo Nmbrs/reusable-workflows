@@ -7,6 +7,10 @@ on:
         description: "Target working directory"
         required: false
         type: string
+    outputs:
+      tf_plan_output:
+        description: "Output of tf plan"
+        value: ${{ jobs.tf-code-validation.outputs.tf-plan-output }}
 
     secrets:
       terraform_cloud_api_token:
@@ -22,6 +26,9 @@ jobs:
       run:
         shell: bash
         working-directory: ${{ inputs.target-directory }}
+
+    outputs:
+      tf_plan_output: ${{ steps.tf-plan-output.outputs.tf-plan-output }}
 
     steps:
       # Checkout repository
@@ -60,7 +67,7 @@ jobs:
 
       # Store tf plan output to file
       - name: Terraform Plan Output
-        id: extract
+        id: tf-plan-output
         run: |
           tfplanoutput=$(grep -oE "Plan: [0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy" tf-plan-output)
           echo "tf-plan-output=$tfplanoutput" >> "$GITHUB_OUTPUT"
