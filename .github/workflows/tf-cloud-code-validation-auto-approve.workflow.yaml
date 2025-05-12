@@ -56,4 +56,11 @@ jobs:
       # Generates a Terraform plan.
       - name: Terraform Plan
         id: tf-plan
-        run: terraform plan -input=false -no-color
+        run: terraform plan -input=false -no-color > tf-plan-output
+
+      # Store tf plan output to file
+      - name: Terraform Plan Output
+        id: extract
+        run: |
+          tf-plan-output=$(grep -oE "Plan: [0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy" tf-plan-output)
+          echo "tf-plan-output=$tf-plan-output" >> "$GITHUB_OUTPUT"
