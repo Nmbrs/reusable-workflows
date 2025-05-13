@@ -10,7 +10,7 @@ on:
     outputs:
       tf_plan_output:
         description: "Output of tf plan"
-        value: ${{ jobs.tf-code-validation.outputs.tf-plan-output }}
+        value: ${{ jobs.tf-code-validation.outputs.tf_plan_output }}
 
     secrets:
       terraform_cloud_api_token:
