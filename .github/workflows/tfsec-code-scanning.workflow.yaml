@@ -6,7 +6,7 @@ on:
 jobs:
   tfsec-scan:
     name: tfsec scan
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted]
 
     defaults:
       run:
@@ -16,23 +16,23 @@ jobs:
       # Checkout repository
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Run tfsec scanning
       - name: tfsec scanning
-        uses: tfsec/tfsec-sarif-action@v0.1.4
+        uses: aquasecurity/tfsec-sarif-action@v0.1.4
         with:
           sarif_file: tfsec.sarif
 
       # Uploads SARIF file to see the result of tfsec in github repository
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: tfsec.sarif
 
       # Add comments to PR in case of  potential vulnerabilities
       - name: tfsec
-        uses: tfsec/tfsec-pr-commenter-action@v1.3.1
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
