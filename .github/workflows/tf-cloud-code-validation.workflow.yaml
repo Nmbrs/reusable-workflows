@@ -20,7 +20,7 @@ on:
 jobs:
   tf-code-validation:
     name: Terraform code validation
-    runs-on: [self-hosted]
+    runs-on: [ubuntu-latest]
 
     defaults:
       run:
